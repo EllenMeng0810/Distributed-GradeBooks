@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>gradebooks</artifactId>
+        <groupId>comp655.project2</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gradbook-ear</artifactId>
+
+
+    <packaging>ear</packaging>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>comp655.project2</groupId>
+            <artifactId>central-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersy-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-core</artifactId>
+            <version>${jersy-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>${jersy-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>comp655.project2</groupId>
+            <artifactId>datasource</artifactId>
+            <version>1.0</version>
+            <type>ejb-client</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.18.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.owlike</groupId>
+            <artifactId>genson</artifactId>
+            <version>0.99</version>
+        </dependency>
+
+        <dependency>
+            <groupId>comp655.project2</groupId>
+            <artifactId>datasource</artifactId>
+            <version>1.0</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>comp655.project2</groupId>
+            <artifactId>primary-web-server</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>comp655.project2</groupId>
+            <artifactId>secondary-web-server</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>${artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+<!--                <version>2.10</version>-->
+                <version>3.2.0</version>
+                <configuration>
+                    <!--<generateModuleId>true</generateModuleId>-->
+
+                    <!--指定打包范围，避免无用jar混乱加入-->
+                    <!--<packagingIncludes>META-INF/**,**/acme-*.jar,**/acme-*.war</packagingIncludes>-->
+                    <!--<packagingExcludes></packagingExcludes>-->
+
+                    <!--打包指定目录lib-->
+                    <defaultLibBundleDir>lib/</defaultLibBundleDir>
+                    <!--将多个war的共享包提取到父级别-->
+                    <skinnyWars>true</skinnyWars>
+
+                    <!--<includeLibInApplicationXml>true</includeLibInApplicationXml>-->
+
+                    <!--jboss 定制-->
+                    <!--<jboss>-->
+                    <!--<version>5</version>-->
+                    <!--<module-order>strict</module-order>-->
+                    <!--<unauthenticated-principal>guest</unauthenticated-principal>-->
+                    <!--<loader-repository>com.foo:loader=foo-application-1.0.ear</loader-repository>-->
+                    <!--</jboss>-->
+
+                    <modules>
+
+                        <!--jarModule：用于添加第三方库，配合includeInApplicationXml，可使其像一个开发的模块-->
+                        <!--                        <jarModule>-->
+                        <!--<groupId>com.conquer.eden</groupId>-->
+                        <!--<artifactId>ejb3</artifactId>-->
+                        <!--<bundleFileName>ejb3.jar</bundleFileName>-->
+
+                        <!--<includeInApplicationXml>true</includeInApplicationXml>-->
+
+                        <!--<bundleDir>APP-INF/lib</bundleDir> 只更改位置，名称保持不变-->
+                        <!--<uri>APP-INF/lib/anotherName-1.2.3.jar</uri> 可定制位置和名称，需要指定名称-->
+                        <!--<excluded>true</excluded>-->
+
+                        <!--<moduleId>ejb3-id</moduleId>-->
+                        <!--                        </jarModule>-->
+                        <ejbModule>
+                            <groupId>comp655.project2</groupId>
+                            <artifactId>datasource</artifactId>
+                            <bundleFileName>datasource.jar</bundleFileName>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>comp655.project2</groupId>
+                            <artifactId>primary-web-server</artifactId>
+                            <bundleFileName>primary.war</bundleFileName>
+                            <context-root>primary</context-root>
+                        </webModule>
+                        <webModule>
+                            <groupId>comp655.project2</groupId>
+                            <artifactId>secondary-web-server</artifactId>
+                            <bundleFileName>secondary.war</bundleFileName>
+                            <context-root>secondary</context-root>
+                        </webModule>
+                    </modules>
+
+
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
