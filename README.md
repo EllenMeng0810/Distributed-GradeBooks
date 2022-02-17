@@ -1,4 +1,4 @@
-# GradeBooks
+# Distributed-GradeBooks
 
 Design and implement DGB (Distributed GradeBooks), a distributed server-side implementation of GradeBook which a web application to administrate student grades. A GradeBook is a collection of student grades for one subject. A different subject will require a separate GradeBook. 
 
